@@ -15,6 +15,7 @@
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
+<div id="progress" aria-hidden="true"></div>
 <div id="ambient" aria-hidden="true"></div>
 <div id="glow" aria-hidden="true"></div>
 
@@ -30,7 +31,7 @@
     <p class="intro" style="--d:.3">Effective November 13, 2026</p>
   </header>
   <div class="doc intro" style="--d:.45">
-    <div class="card">
+    <div class="card spot">
       <h2>Agreement</h2><p>By downloading or using Notely AI you agree to these Terms and to Apple&#x27;s Licensed Application End User License Agreement (the &quot;Standard EULA&quot;). If they conflict, these Terms apply where the law allows.</p>
       <h2>Your content</h2><p>You own everything you create in Notely AI. You are responsible for what you write and import, and for keeping your own backups. Notely AI includes Version History, Trash and iCloud Backup to help protect your notes, but no software can guarantee that data is never lost.</p>
       <h2>Notely Plus subscription</h2><p>Notely Plus is an optional auto-renewing subscription available monthly or yearly. Payment is charged to your Apple ID when you confirm the purchase. It renews automatically at the same price unless you cancel at least 24 hours before the end of the current period. You can manage or cancel it in your Apple ID settings. Refunds are handled by Apple under its policies.</p>
@@ -55,6 +56,7 @@
     </div>
   </div>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
 <script src="site.js"></script>
 </body>
 </html>

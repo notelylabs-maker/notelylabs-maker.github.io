@@ -15,6 +15,7 @@
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
+<div id="progress" aria-hidden="true"></div>
 <div id="ambient" aria-hidden="true"></div>
 <div id="glow" aria-hidden="true"></div>
 
@@ -30,7 +31,7 @@
     <p class="intro" style="--d:.3">Effective November 13, 2026</p>
   </header>
   <div class="doc intro" style="--d:.45">
-    <div class="card">
+    <div class="card spot">
       <h2>Summary</h2><p>Notely AI does not collect any personal data. There is no account, no sign-up, no advertising, no analytics and no tracking. Your notes stay on your iPad unless you choose to back them up to your own iCloud Drive.</p>
       <h2>Your notes</h2><p>Everything you write, draw, import or photograph in Notely AI is stored on your iPad, inside Notely AI&#x27;s private storage. The developer never receives, sees or stores your notes.</p>
       <h2>Handwriting recognition</h2><p>Search, Solve Math, Handwriting to Text and Text from Photos read your handwriting using Apple&#x27;s on-device Vision technology. This happens entirely on your iPad; nothing is uploaded.</p>
@@ -58,6 +59,7 @@
     </div>
   </div>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
 <script src="site.js"></script>
 </body>
 </html>

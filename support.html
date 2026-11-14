@@ -15,6 +15,7 @@
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
+<div id="progress" aria-hidden="true"></div>
 <div id="ambient" aria-hidden="true"></div>
 <div id="glow" aria-hidden="true"></div>
 
@@ -30,8 +31,8 @@
     <p class="intro" style="--d:.3">Help with Notely AI</p>
   </header>
   <div class="doc intro" style="--d:.45">
-    <div class="contact-card"><div><b>Need help?</b><span>Email us and we'll get back to you as soon as we can.</span></div><a class="cta" href="mailto:notelylabs@gmail.com">notelylabs@gmail.com</a></div>
-    <div class="card">
+    <div class="contact-card spot"><div><b>Need help?</b><span>Email us and we'll get back to you as soon as we can.</span></div><a class="cta" href="mailto:notelylabs@gmail.com">notelylabs@gmail.com</a></div>
+    <div class="card spot">
       <details><summary>Where are my notes saved?</summary><p>On your iPad, saved automatically as you write. Turn on Settings › Backup &amp; Restore › iCloud Backup to keep copies in your iCloud Drive.</p></details>
       <details><summary>I deleted a note by mistake</summary><p>Open Library › Trash. Deleted notes stay there for 30 days. Inside a note, ⋯ › Version History brings back earlier versions.</p></details>
       <details><summary>Moving to a new iPad</summary><p>Install Notely AI, open Settings › Backup &amp; Restore › Restore from a Backup File, and choose your backup in iCloud Drive.</p></details>
@@ -55,6 +56,7 @@
     </div>
   </div>
 </footer>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
 <script src="site.js"></script>
 </body>
 </html>

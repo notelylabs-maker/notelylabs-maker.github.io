@@ -83,6 +83,9 @@
   var bar = document.getElementById('progress');
   var nav = $('nav');
   var heroInner = $('.hero-inner');
+  var hint = $('.scroll-hint');
+  // Measured once: on iPhone the address bar changes innerHeight while you scroll, which made the hero jump.
+  var heroHeight = window.innerHeight;
   var ticking = false;
   function onScroll() {
     if (ticking) return;
@@ -93,13 +96,13 @@
       var max = Math.max(1, document.documentElement.scrollHeight - window.innerHeight);
       if (bar) bar.style.transform = 'scaleX(' + Math.min(1, y / max).toFixed(4) + ')';
       if (nav) nav.classList.toggle('scrolled', y > 12);
+      if (hint) hint.classList.toggle('gone', y > 24);
       if (heroInner && !reduce) {
-        var h = window.innerHeight;
-        if (y < h * 1.2) {
-          var p = Math.min(1, y / (h * 0.85));
-          heroInner.style.transform = 'translate3d(0,' + (y * 0.28).toFixed(1) + 'px,0) scale(' + (1 - p * 0.06).toFixed(4) + ')';
-          heroInner.style.opacity = (1 - p * 0.9).toFixed(3);
-        }
+        // A gentle drift that is fully faded before it can reach the next section.
+        var p = Math.min(1, y / (heroHeight * 0.55));
+        heroInner.style.transform = 'translate3d(0,' + (Math.min(y, heroHeight) * 0.12).toFixed(1) + 'px,0) scale(' + (1 - p * 0.05).toFixed(4) + ')';
+        heroInner.style.opacity = (1 - p).toFixed(3);
+        heroInner.style.visibility = p >= 1 ? 'hidden' : 'visible';
       }
     });
   }

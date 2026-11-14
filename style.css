@@ -168,7 +168,11 @@ nav.scrolled { background: rgba(7, 7, 13, .85); border-bottom-color: rgba(255, 2
 .scroll-hint {
   position: absolute; bottom: 22px; left: 50%; width: 26px; height: 42px; margin-left: -13px;
   border-radius: 14px; box-shadow: inset 0 0 0 2px rgba(196, 196, 224, .35);
+  transition: opacity .4s var(--ease);
 }
+.scroll-hint.gone { opacity: 0; pointer-events: none; }
+/* Phones scroll by habit, and the hint sat on top of the buttons there. */
+@media (max-width: 640px), (max-height: 760px) { .scroll-hint { display: none; } }
 .scroll-hint::after {
   content: ""; position: absolute; left: 50%; top: 9px; width: 4px; height: 8px; margin-left: -2px;
   border-radius: 2px; background: var(--lavender); animation: wheel 2s var(--ease) infinite;

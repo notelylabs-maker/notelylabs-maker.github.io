@@ -38,7 +38,7 @@
     (function step(now) {
       var t = Math.min(1, (now - start) / dur), e = 1 - Math.pow(1 - t, 3);
       var v = to ? Math.round(to * e) : (t < 1 ? Math.floor(Math.random() * 10) : 0);
-      el.textContent = v + suffix;
+      el.innerHTML = v + (suffix ? '<span class="pct">' + suffix + '</span>' : '');
       if (t < 1) requestAnimationFrame(step);
     })(start);
   }

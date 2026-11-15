@@ -18,6 +18,7 @@
   var $$ = function (s) { return Array.prototype.slice.call(film.querySelectorAll(s)); };
   var giant = $('.giant'), glowA = $('.glow-a'), glowB = $('.glow-b');
   var scenes = $$('.scene'), cards = $$('.fcard');
+  var sheet = $('.mathsheet'), sheetRows = $$('.ms-row');
   var grid = $$('.grid-line'), sparks = $$('.spark'), logo = $('.logotype');
   cards.forEach(function (c, i) { c.firstElementChild.style.setProperty('--i', i); });
   var logoLines = $$('.logo-line'), bigNum = $('.big-num');
@@ -74,8 +75,25 @@
     var x = 0;
     var travel = 2500 * seg(p, 0, .82);     // how far the camera has flown (px): deep cards keep arriving
     var dim = 1 - .45 * seg(p, .16, .26);   // quieter behind the scene 2 and 3 text
+    // --- scene 2: sums write themselves, answers pop in (like Live Math)
+    var sv = Math.min(seg(p, .2, .25), 1 - seg(p, .45, .5));
+    if (sheet) {
+      sheet.style.opacity = sv.toFixed(3);
+      sheet.style.visibility = sv < .01 ? 'hidden' : 'visible';
+      sheet.style.transform = 'translate3d(' + ((1 - sv) * -30).toFixed(1) + 'px,0,0) rotate(' + (-2 + sx * 3).toFixed(2) + 'deg)';
+      sheetRows.forEach(function (row) {
+        var a = +row.dataset.a, b = +row.dataset.b;
+        var w = seg(p, a, a + (b - a) * .6), ans = seg(p, a + (b - a) * .65, b);
+        var cp = 'inset(-20% ' + ((1 - w) * 108 - 8).toFixed(2) + '% -20% -2%)';
+        row.firstElementChild.style.clipPath = cp; row.firstElementChild.style.webkitClipPath = cp;
+        row.lastElementChild.style.opacity = ans.toFixed(3);
+        row.lastElementChild.style.transform = 'scale(' + (.6 + .4 * ans).toFixed(3) + ')';
+      });
+    }
+
     // The text block on screen right now (cards must never pass over it).
     var textBoxes = [];
+    if (sheet && sv > .05) textBoxes.push(sheet.getBoundingClientRect());
     for (var si = 0; si < scenes.length - 1; si++) {
       if (+scenes[si].style.opacity > .05) textBoxes.push(scenes[si].getBoundingClientRect());
     }

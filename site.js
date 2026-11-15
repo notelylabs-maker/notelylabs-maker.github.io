@@ -234,4 +234,14 @@
     }, { threshold: 0.3 });
     dio.observe(demo);
   }
+
+  // ---------- opening animation: remove when finished; any click or key skips it ----------
+  var intro = document.getElementById('intro');
+  if (intro && !root.classList.contains('no-intro')) {
+    var done = function () { if (intro.parentNode) intro.parentNode.removeChild(intro); };
+    var skip = function () { intro.classList.add('skip'); setTimeout(done, 500); };
+    intro.addEventListener('click', skip);
+    window.addEventListener('keydown', skip, { once: true });
+    setTimeout(done, 2900);
+  } else if (intro && intro.parentNode) { intro.parentNode.removeChild(intro); }
 })();

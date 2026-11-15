@@ -14,10 +14,18 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=EB+Garamond:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261115j">
-<script>document.documentElement.classList.add('js')</script>
+<link rel="stylesheet" href="style.css?v=20261115k">
+<script>document.documentElement.classList.add('js');try{if(sessionStorage.getItem('notelyIntro')||matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('no-intro');else sessionStorage.setItem('notelyIntro','1')}catch(e){document.documentElement.classList.add('no-intro')}</script>
 </head>
 <body>
+<div id="intro" aria-hidden="true">
+  <div class="intro-half top"></div><div class="intro-half bottom"></div>
+  <div class="intro-core">
+    <div class="intro-mark"><span class="intro-ring"></span><span class="intro-ring two"></span><img src="icon.png" alt=""></div>
+    <div class="intro-word"><span>N</span><span>O</span><span>T</span><span>E</span><span>L</span><span>Y</span><span class="gap"></span><span class="ai">A</span><span class="ai">I</span></div>
+    <i class="intro-line"></i>
+  </div>
+</div>
 <div id="progress" aria-hidden="true"></div>
 <div id="ambient" aria-hidden="true"></div>
 <div id="glow" aria-hidden="true"></div>
@@ -91,6 +99,13 @@
           <div class="fc-in fc-rec fc-zoom">🔍 Zoom Box 3×</div></div>
         <div class="fcard" data-x="62" data-y="58" data-z="-1750" data-px="28" data-py="46" data-pz="-1750">
           <div class="fc-in fc-rec fc-pages">⧉ Pages 1–12</div></div>
+      </div>
+
+      <div class="mathsheet" aria-hidden="true">
+        <div class="ms-row" data-a=".22" data-b=".27"><span class="ms-sum">12 × 7 =</span><b>84</b></div>
+        <div class="ms-row" data-a=".27" data-b=".32"><span class="ms-sum">3.5 + 1.25 =</span><b>4.75</b></div>
+        <div class="ms-row" data-a=".32" data-b=".37"><span class="ms-sum">144 ÷ 12 =</span><b>12</b></div>
+        <div class="ms-row" data-a=".37" data-b=".42"><span class="ms-sum">(8 − 3) × 4 =</span><b>20</b></div>
       </div>
 
       <div class="scene s1">
@@ -409,8 +424,8 @@
   </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
-<script src="site.js?v=20261115j"></script>
-<script src="film.js?v=20261115j"></script>
-<script src="motion.js?v=20261115j"></script>
+<script src="site.js?v=20261115k"></script>
+<script src="film.js?v=20261115k"></script>
+<script src="motion.js?v=20261115k"></script>
 </body>
 </html>

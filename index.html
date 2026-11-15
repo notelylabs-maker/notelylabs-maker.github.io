@@ -15,7 +15,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=EB+Garamond:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
-<script type="importmap">{"imports":{"three":"https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js","three/addons/":"https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"}}</script>
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
@@ -34,32 +33,82 @@
 </nav>
 
 <main>
-  <!-- HERO: a 3D iPad and Apple Pencil you scroll through -->
-  <header class="stage" id="stage">
-    <div class="stage-pin">
-      <div class="kinetic" aria-hidden="true">
-        <span class="k">WRITE.</span><span class="k fill">SOLVE.</span><span class="k">ASK.</span>
-      </div>
-      <canvas id="ipad3d" aria-hidden="true"></canvas>
+  <!-- HERO: the opening film, scrolled through in four scenes -->
+  <header class="film" id="film">
+    <div class="film-pin">
+      <div class="glow-a" aria-hidden="true"></div>
+      <div class="glow-b" aria-hidden="true"></div>
 
-      <div class="stage-copy">
-        <div class="mark intro" style="--d:.05" aria-hidden="true">
-          <div class="rays"></div><div class="halo"></div><div class="ring"></div><div class="ring two"></div>
-          <img src="icon.png" alt="">
+      <svg class="grid" viewBox="0 0 1600 900" preserveAspectRatio="none" aria-hidden="true">
+        <line class="grid-line" x1="0" y1="180" x2="1600" y2="180"/>
+        <line class="grid-line" x1="0" y1="720" x2="1600" y2="720"/>
+        <line class="grid-line" x1="260" y1="0" x2="260" y2="900"/>
+        <line class="grid-line" x1="1340" y1="0" x2="1340" y2="900"/>
+        <line class="grid-line" x1="800" y1="0" x2="800" y2="900"/>
+        <line class="grid-line" x1="0" y1="450" x2="1600" y2="450"/>
+        <line class="grid-line" x1="0" y1="0" x2="1600" y2="900"/>
+        <line class="grid-line" x1="1600" y1="0" x2="0" y2="900"/>
+        <circle class="grid-line" cx="800" cy="450" r="300"/>
+      </svg>
+      <span class="spark" style="left:16%;top:20%" aria-hidden="true">+</span>
+      <span class="spark" style="left:84%;top:20%" aria-hidden="true">+</span>
+      <span class="spark" style="left:16%;top:80%" aria-hidden="true">+</span>
+      <span class="spark" style="left:84%;top:80%" aria-hidden="true">+</span>
+      <span class="spark" style="left:50%;top:12%" aria-hidden="true">✦</span>
+
+      <div class="giant" aria-hidden="true"><span class="dim">NOTE</span><span class="lit">LY</span></div>
+
+      <div class="device" aria-hidden="true">
+        <div class="device-screen">
+          <div class="ruled"></div>
+          <div class="ink-line title" data-a="-.1" data-b="-.01">Biology · Ch. 4</div>
+          <div class="ink-line l2" data-a=".08" data-b=".15">Photosynthesis makes</div>
+          <div class="ink-line l3" data-a=".13" data-b=".2">glucose + oxygen</div>
+          <div class="ink-line math" data-a=".25" data-b=".32">12 × 7 = <span class="live-answer">84</span></div>
+          <div class="ink-line q" data-a=".5" data-b=".58">where does it happen?</div>
+          <div class="tutor-card">
+            <b>✦ Notely Tutor</b>
+            <p>In the chloroplasts of plant cells, using sunlight. ✓</p>
+            <span>＋ Put it on my page</span>
+          </div>
         </div>
-        <h1><span class="intro" style="--d:.2">Notely</span> <span class="ai intro" style="--d:.35">AI</span></h1>
-        <p class="lead intro" style="--d:.55">The notebook for Apple Pencil, with an AI tutor that reads your page.</p>
-        <div class="actions intro" style="--d:.75">
+      </div>
+
+      <div class="scene s1">
+        <p class="kicker"><b>01</b> Notely AI for iPad</p>
+        <h1>Write it<br>down.</h1>
+        <p class="lead">The notebook for Apple Pencil, with an AI tutor that reads your page.</p>
+        <div class="actions">
           <!-- When Notely AI is live, change this to your App Store link. -->
           <span class="cta" role="note">Coming soon to iPad</span>
           <a class="ghost" href="#tutor">See it work ↓</a>
         </div>
       </div>
-
-      <div class="steps" aria-live="polite">
-        <div class="step-card" data-step><b>01</b><span>Write naturally.</span><small>Smooth ink, perfect shapes, scratch to erase.</small></div>
-        <div class="step-card" data-step><b>02</b><span>The math answers itself.</span><small>Write 12 × 7 = and pause. Live Math writes 84 in your handwriting.</small></div>
-        <div class="step-card" data-step><b>03</b><span>Ask what you wrote.</span><small>Notely Tutor reads your whole page, even messy writing.</small></div>
+      <div class="scene s2">
+        <p class="kicker"><b>02</b> Live Math</p>
+        <div class="big-num">84<sup>=</sup></div>
+        <h2>You write the sum.<br>It writes the answer.</h2>
+        <p class="lead">Write 12 × 7 = and pause. The answer appears in your own handwriting.</p>
+      </div>
+      <div class="scene s3">
+        <p class="kicker"><b>03</b> Notely Tutor</p>
+        <h2>Ask what<br>you wrote.</h2>
+        <p class="lead">Tutor reads your whole page, even messy writing, and answers right there.</p>
+      </div>
+      <div class="scene s4">
+        <div class="logotype">
+          <svg viewBox="0 0 1200 260" aria-hidden="true">
+            <line class="logo-line" x1="0" y1="40" x2="1200" y2="40"/>
+            <line class="logo-line" x1="0" y1="220" x2="1200" y2="220"/>
+            <line class="logo-line" x1="60" y1="0" x2="60" y2="260"/>
+            <line class="logo-line" x1="1140" y1="0" x2="1140" y2="260"/>
+            <line class="logo-line" x1="0" y1="0" x2="300" y2="260"/>
+            <line class="logo-line" x1="1200" y1="0" x2="900" y2="260"/>
+          </svg>
+          <h2 class="word">NOTELY <span>AI</span></h2>
+        </div>
+        <p class="tag">Write. Ask. Learn.</p>
+        <div class="actions"><span class="cta" role="note">Coming soon to iPad</span></div>
       </div>
       <div class="scroll-hint" aria-hidden="true"></div>
     </div>
@@ -291,6 +340,6 @@
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
 <script src="site.js"></script>
-<script type="module" src="hero3d.js"></script>
+<script src="film.js"></script>
 </body>
 </html>

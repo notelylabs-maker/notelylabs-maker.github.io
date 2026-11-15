@@ -57,13 +57,19 @@
           if (!t) return;
           if (/^\s+$/.test(t)) { parts.push(document.createTextNode(' ')); return; }
           var span = document.createElement('span');
-          span.className = 'wd'; span.textContent = t; span.style.setProperty('--w', w++);
+          span.className = 'wd'; span.style.setProperty('--w', w++);
+          var inner = document.createElement('span');
+          inner.className = 'wi'; inner.textContent = t;
+          span.appendChild(inner);
           parts.push(span);
         });
       } else {
         var wrap = document.createElement('span');
         wrap.className = 'wd'; wrap.style.setProperty('--w', w++);
-        wrap.appendChild(node.cloneNode(true));
+        var innerWrap = document.createElement('span');
+        innerWrap.className = 'wi';
+        innerWrap.appendChild(node.cloneNode(true));
+        wrap.appendChild(innerWrap);
         parts.push(wrap);
       }
     });

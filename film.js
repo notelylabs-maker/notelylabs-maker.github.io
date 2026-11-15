@@ -29,7 +29,7 @@
     return Math.min(seg(p, a, a + fade), 1 - seg(p, b - fade, b));
   }
 
-  var target = 0, p = 0, mx = 0, my = 0, sx = 0, sy = 0, running = false;
+  var target = 0, p = 0, mx = 0, my = 0, sx = 0, sy = 0, running = false, fitTop = 0;
   var top0 = 0, total = 1;
   function measure() {
     var r = film.getBoundingClientRect();
@@ -76,7 +76,22 @@
     var rx = 4 + sy * -8 - 6 * away;
     var s = (0.92 + 0.08 * seg(p, 0, .12)) * (1 - 0.35 * away);
     var y = 4 * (1 - seg(p, 0, .12)) - 10 * away; // vh
-    device.style.transform = flat
+    if (!wide) {
+      // Phones: fit the iPad into the space between the top bar and the text that's showing,
+      // so it can never cover the words, whatever the phone's size.
+      var textTop = Infinity;
+      for (var si = 0; si < 3; si++) {
+        if (+scenes[si].style.opacity > 0.02) textTop = Math.min(textTop, scenes[si].offsetTop);
+      }
+      if (textTop === Infinity) textTop = window.innerHeight * 0.6;
+      fitTop += ((textTop - fitTop) * (fitTop === 0 ? 1 : 0.15));
+      var top = 70, bottom = fitTop - 18;
+      var h = device.offsetHeight || 1;
+      var fit = Math.max(0.35, Math.min(1, (bottom - top) / h));
+      var dy = (top + (bottom - top) / 2) - (device.offsetTop + h / 2);
+      var ps = fit * (1 - 0.35 * away);
+      device.style.transform = 'translate3d(0,' + (dy - 80 * away).toFixed(1) + 'px,0) scale(' + ps.toFixed(4) + ')';
+    } else device.style.transform = flat
       ? 'translate3d(' + x.toFixed(2) + 'vw,' + y.toFixed(2) + 'vh,0) scale(' + s.toFixed(4) + ')'
       : 'translate3d(' + x.toFixed(2) + 'vw,' + y.toFixed(2) + 'vh,0) perspective(1400px) rotateY(' + ry.toFixed(2) + 'deg) rotateX(' + rx.toFixed(2) + 'deg) scale(' + s.toFixed(4) + ')';
     device.style.opacity = (1 - seg(p, .8, .9)).toFixed(3);

@@ -33,11 +33,28 @@
   // Pointer: cursor ring and card tilt.
   var ring = null, rx = -100, ry = -100, tx = -100, ty = -100;
   if (fine) {
+    // The ring IS the pointer: the system arrow is hidden, and a small dot sits exactly
+    // where you point, so clicking stays precise.
     ring = document.createElement('div');
     ring.className = 'cursor-ring';
     ring.setAttribute('aria-hidden', 'true');
     document.body.appendChild(ring);
-    window.addEventListener('pointermove', function (e) { tx = e.clientX; ty = e.clientY; }, { passive: true });
+    var dot = document.createElement('div');
+    dot.className = 'cursor-dot';
+    dot.setAttribute('aria-hidden', 'true');
+    document.body.appendChild(dot);
+    document.documentElement.classList.add('own-cursor');
+    window.addEventListener('pointermove', function (e) {
+      tx = e.clientX; ty = e.clientY;
+      if (rx < -50) { rx = tx; ry = ty; } // first move: start where the mouse is
+      dot.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0)';
+      ring.classList.remove('away'); dot.classList.remove('away');
+    }, { passive: true });
+    // Leaving the window: hide them (the system pointer takes over outside).
+    document.addEventListener('pointerleave', function () { ring.classList.add('away'); dot.classList.add('away'); });
+    document.documentElement.addEventListener('mouseleave', function () { ring.classList.add('away'); dot.classList.add('away'); });
+    window.addEventListener('pointerdown', function () { ring.classList.add('press'); });
+    window.addEventListener('pointerup', function () { ring.classList.remove('press'); });
     document.addEventListener('pointerover', function (e) {
       var hot = e.target.closest && e.target.closest('a, button, .cta, .ghost, .tile, .mode, .tier, .fact');
       ring.classList.toggle('hot', !!hot);
@@ -89,7 +106,7 @@
     }
 
     if (ring) {
-      rx += (tx - rx) * 0.18; ry += (ty - ry) * 0.18;
+      rx += (tx - rx) * 0.38; ry += (ty - ry) * 0.38; // snappy, so it feels like the pointer
       ring.style.transform = 'translate3d(' + rx.toFixed(1) + 'px,' + ry.toFixed(1) + 'px,0)';
     }
     requestAnimationFrame(frame);

@@ -602,6 +602,13 @@ html.still .band-track { transform: translateX(-10vw); }
   border: 1.5px solid rgba(201, 196, 255, .7); pointer-events: none; mix-blend-mode: difference;
   transition: width .35s var(--ease), height .35s var(--ease), margin .35s var(--ease), background .35s var(--ease); }
 .cursor-ring.hot { width: 64px; height: 64px; margin: -32px 0 0 -32px; background: rgba(201, 196, 255, .12); }
+.cursor-ring.press { width: 26px; height: 26px; margin: -13px 0 0 -13px; }
+.cursor-ring.hot.press { width: 54px; height: 54px; margin: -27px 0 0 -27px; }
+.cursor-dot { position: fixed; left: 0; top: 0; width: 6px; height: 6px; margin: -3px 0 0 -3px; border-radius: 50%; z-index: 1000;
+  background: #fff; pointer-events: none; mix-blend-mode: difference; }
+.cursor-ring.away, .cursor-dot.away { opacity: 0; }
+/* The ring is the pointer: hide the system arrow everywhere on the page (mouse only). */
+html.own-cursor, html.own-cursor * { cursor: none !important; }
 
 @media (max-width: 760px) {
   .band { padding: 2vh 0; }

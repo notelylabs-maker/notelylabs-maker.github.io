@@ -449,7 +449,7 @@ footer a:hover { color: var(--text); }
 
 
 /* ---------- the opening film (hero) ---------- */
-.film { position: relative; height: 560vh; z-index: 1; }
+.film { position: relative; height: 420vh; z-index: 1; }
 .film-pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
 .glow-a, .glow-b { position: absolute; left: 50%; top: 58%; width: 70vmax; height: 46vmax; margin: -23vmax 0 0 -35vmax;
   border-radius: 50%; pointer-events: none; will-change: transform, opacity; filter: blur(40px); }
@@ -529,7 +529,7 @@ html.film-still .device { transform: translateX(16vw) perspective(1400px) rotate
   .device { box-shadow: 0 0 0 1px rgba(255, 255, 255, .1) inset, 0 20px 50px rgba(0, 0, 0, .6); }
 }
 @media (max-width: 1000px) {
-  .film { height: 520vh; }
+  .film { height: 380vh; }
   .device { --dw: min(52vw, 29vh); top: 31%; }
   .giant { top: 30%; font-size: 34vw; }
   .scene .lead { font-size: 15px; margin-bottom: 18px; }
@@ -619,7 +619,7 @@ html.own-cursor, html.own-cursor * { cursor: none !important; }
 .secnum + .center .eyebrow { display: none; }
 
 /* Before the film's first frame: only scene 1 shows (no flash of stacked text). */
-html.film-on .scene.s2, html.film-on .scene.s3, html.film-on .scene.s4 { opacity: 0; visibility: hidden; }
+html.film-on .scene.s3, html.film-on .scene.s4 { opacity: 0; visibility: hidden; }
 
 
 /* ---------- privacy: giant numbers ---------- */
@@ -756,3 +756,46 @@ html.still .edge { animation: none; }
 .mode:hover { background: #15153a; }
 /* The last "New in 1.1" tile fills its row (no empty gap). */
 .bento > .tile:last-child { grid-column: 1 / -1; min-height: 150px; }
+
+
+/* ---------- the opening: a field of floating note cards you fly through ---------- */
+.field { position: absolute; inset: 0; z-index: 2; perspective: 1000px; perspective-origin: 50% 45%; pointer-events: none; }
+.fcard { position: absolute; left: 0; top: 0; will-change: transform, opacity; }
+.fc-in { position: relative; translate: -50% -50%; white-space: nowrap; border-radius: 18px; padding: 14px 18px;
+  background: linear-gradient(160deg, rgba(36, 30, 84, .82), rgba(12, 11, 28, .88)); color: #eeeefc;
+  box-shadow: inset 0 0 0 1px rgba(201, 196, 255, .16), 0 24px 60px rgba(0, 0, 0, .45), 0 0 40px rgba(123, 92, 255, .18);
+  -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+  animation: bob 7s ease-in-out infinite alternate; animation-delay: calc(var(--i, 0) * -1.3s); font: 500 15px/1.35 "Inter", sans-serif; }
+@keyframes bob { from { transform: translateY(-6px) rotate(-1.2deg); } to { transform: translateY(6px) rotate(1.2deg); } }
+.fc-math { font: 600 30px/1 "Caveat", cursive; background: #fbfbff; color: #1c1c1e; padding: 16px 22px;
+  background-image: repeating-linear-gradient(180deg, transparent 0 27px, rgba(84, 120, 190, .25) 27px 28px); }
+.fc-math b { color: #5b3bd6; font-weight: 700; }
+.fc-tutor { max-width: 250px; white-space: normal; font-size: 14px; color: #c9c4ff; }
+.fc-tutor em { display: block; font-style: normal; font-weight: 700; color: #fff; margin-bottom: 4px; }
+.fc-flash { text-align: center; font-weight: 800; font-size: 18px; background: linear-gradient(160deg, #f6f3ff, #e7e1ff); color: #241a6b; }
+.fc-flash small { display: block; font-size: 10px; letter-spacing: .14em; color: #7b5cff; margin-bottom: 4px; }
+.fc-flash i { display: block; font-style: normal; font-weight: 500; font-size: 13px; color: #5b5480; margin-top: 2px; }
+.fc-sticky { font: 600 24px/1.1 "Caveat", cursive; background: #ffe58a; color: #3a2f00; border-radius: 6px; padding: 16px 18px;
+  box-shadow: 0 18px 40px rgba(0, 0, 0, .4); rotate: 4deg; }
+.fc-rec { display: flex; align-items: center; gap: 10px; font-weight: 600; border-radius: 99px; padding: 10px 16px; }
+.fc-rec i { width: 10px; height: 10px; border-radius: 50%; background: #ff4d6a; box-shadow: 0 0 12px #ff4d6a; animation: pulse 1.4s ease-in-out infinite; }
+@keyframes pulse { 50% { opacity: .35; } }
+.fc-check { display: flex; align-items: center; gap: 10px; font-weight: 700; }
+.fc-check b { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; background: var(--grad); font-size: 13px; }
+.fc-check span { color: var(--green); }
+.fc-graph { padding: 10px; background: #fbfbff; }
+.fc-graph svg { display: block; width: 120px; height: 80px; fill: none; stroke-linecap: round; }
+.fc-graph path { stroke: rgba(28, 28, 30, .45); stroke-width: 1.5; }
+.fc-graph .curve { stroke: #5b3bd6; stroke-width: 3; }
+.fc-formula { font: 600 30px/1 "Caveat", cursive; color: #c9c4ff; }
+html.film-still .field .fcard { opacity: .9; }
+html.film-still .fc-in { animation: none; }
+@media (max-width: 1000px) {
+  .fcard[data-phone="no"] { display: none; }
+  .fc-in { font-size: 13px; padding: 11px 14px; border-radius: 14px; }
+  .fc-math { font-size: 26px; padding: 12px 16px; }
+  .fc-sticky { font-size: 19px; }
+  .fc-tutor { max-width: 190px; font-size: 12.5px; }
+  .fc-graph svg { width: 90px; height: 60px; }
+}
+@media (max-width: 1000px), (pointer: coarse) { .fc-in { -webkit-backdrop-filter: none; backdrop-filter: none; } }

@@ -1,7 +1,7 @@
 // Notely AI: the opening "film". One pinned stage you scroll through, in four scenes:
-//   1. A giant NOTELY behind the iPad, the page starts writing itself.
-//   2. "84": Live Math answers the sum you wrote.
-//   3. "Ask what you wrote": construction lines draw in, Tutor's answer slides up.
+//   1. A giant NOTELY and a field of floating note cards (math, Tutor, flashcard, sticky…).
+//   2. "84": Live Math. You fly forward through the cards as you scroll.
+//   3. "Ask what you wrote": construction lines draw in.
 //   4. The NOTELY AI logotype, built from lines (like a studio ident).
 // Everything is transform / opacity / clip-path, eased toward the scroll position every frame,
 // so it stays smooth even with fast scrolling. Reduce Motion shows the finished frame.
@@ -16,9 +16,10 @@
 
   var $ = function (s) { return film.querySelector(s); };
   var $$ = function (s) { return Array.prototype.slice.call(film.querySelectorAll(s)); };
-  var device = $('.device'), giant = $('.giant'), glowA = $('.glow-a'), glowB = $('.glow-b');
-  var scenes = $$('.scene'), inkLines = $$('.ink-line'), answer = $('.live-answer');
-  var tutor = $('.tutor-card'), grid = $$('.grid-line'), sparks = $$('.spark'), logo = $('.logotype');
+  var giant = $('.giant'), glowA = $('.glow-a'), glowB = $('.glow-b');
+  var scenes = $$('.scene'), cards = $$('.fcard');
+  var grid = $$('.grid-line'), sparks = $$('.spark'), logo = $('.logotype');
+  cards.forEach(function (c, i) { c.firstElementChild.style.setProperty('--i', i); });
   var logoLines = $$('.logo-line'), bigNum = $('.big-num');
 
   function clamp(v) { return v < 0 ? 0 : v > 1 ? 1 : v; }
@@ -65,67 +66,60 @@
     sx += (mx - sx) * 0.06; sy += (my - sy) * 0.06;
     var still = Math.abs(target - p) < 0.0004 && Math.abs(mx - sx) < 0.001 && Math.abs(my - sy) < 0.001;
 
-    // --- the iPad: centre → left for "84" → centre for Tutor → away for the logotype
-    var wide = window.innerWidth > 1000; // side-by-side only where there's room
-    var flat = !wide || coarse; // phones: move and scale only (Safari mishandles 3D turns here)
+    // --- the note cards: you fly forward through them as you scroll
+    var wide = window.innerWidth > 1000;
+    var W = window.innerWidth, H = window.innerHeight;
     var toLeft = seg(p, .22, .32) * (1 - seg(p, .46, .56));
     var away = seg(p, .76, .9);
-    // Scene 1: beside the headline. Scene 2: left of the big 84. Scene 3: centre.
-    var x = wide ? 17 * (1 - seg(p, .16, .3)) - 24 * toLeft + 17 * seg(p, .48, .58) * (1 - away) : 0; // vw
-    var ry = -16 * toLeft + 10 * seg(p, .5, .62) * (1 - away) + sx * 10;
-    var rx = 4 + sy * -8 - 6 * away;
-    var s = (0.92 + 0.08 * seg(p, 0, .12)) * (1 - 0.35 * away);
-    var y = 4 * (1 - seg(p, 0, .12)) - 10 * away; // vh
-    if (!wide) {
-      // Phones: fit the iPad into the space between the top bar and the text that's showing,
-      // so it can never cover the words, whatever the phone's size.
-      var textTop = Infinity;
-      for (var si = 0; si < 3; si++) {
-        if (+scenes[si].style.opacity > 0.02) textTop = Math.min(textTop, scenes[si].offsetTop);
+    var x = 0;
+    var travel = 1500 * seg(p, 0, .8);      // how far the camera has flown (px)
+    var dim = 1 - .55 * seg(p, .22, .34);   // quieter behind the Tutor text
+    // The text block on screen right now (cards must never pass over it).
+    var textBoxes = [];
+    for (var si = 0; si < scenes.length - 1; si++) {
+      if (+scenes[si].style.opacity > .05) textBoxes.push(scenes[si].getBoundingClientRect());
+    }
+    cards.forEach(function (c) {
+      var d = c.dataset;
+      var bx = +(wide ? d.x : (d.px || d.x)), by = +(wide ? d.y : (d.py || d.y)), bz = +(wide ? d.z : (d.pz || d.z));
+      var z = bz + travel;
+      // Closer cards lean more with the mouse (depth parallax).
+      var depth = (z + 700) / 1000;
+      var cx = bx / 100 * W + sx * 60 * depth, cy = by / 100 * H + sy * 40 * depth - p * 0.12 * H;
+      var near = clamp((z - 420) / 380);        // fades as it passes the camera
+      var farIn = clamp((z + 900) / 400);       // fades in from the distance
+      var o = farIn * (1 - near) * dim * (1 - away);
+      c.style.transform = 'translate3d(' + cx.toFixed(1) + 'px,' + cy.toFixed(1) + 'px,' + Math.min(z, 860).toFixed(1) + 'px)';
+      if (o > 0 && textBoxes.length) {
+        // Fade out as it comes within 40px of the text, gone before it touches it.
+        var r = c.firstElementChild.getBoundingClientRect();
+        for (var ti = 0; ti < textBoxes.length; ti++) {
+          var tb = textBoxes[ti];
+          var gapX = Math.max(tb.left - r.right, r.left - tb.right);
+          var gapY = Math.max(tb.top - r.bottom, r.top - tb.bottom);
+          var gap = Math.max(gapX, gapY);
+          if (gap < 40) o *= clamp(gap / 40);
+        }
       }
-      if (textTop === Infinity) textTop = window.innerHeight * 0.6;
-      fitTop += ((textTop - fitTop) * (fitTop === 0 ? 1 : 0.15));
-      var top = 70, bottom = fitTop - 18;
-      var h = device.offsetHeight || 1;
-      var fit = Math.max(0.35, Math.min(1, (bottom - top) / h));
-      var dy = (top + (bottom - top) / 2) - (device.offsetTop + h / 2);
-      var ps = fit * (1 - 0.35 * away);
-      device.style.transform = 'translate3d(0,' + (dy - 80 * away).toFixed(1) + 'px,0) scale(' + ps.toFixed(4) + ')';
-    } else device.style.transform = flat
-      ? 'translate3d(' + x.toFixed(2) + 'vw,' + y.toFixed(2) + 'vh,0) scale(' + s.toFixed(4) + ')'
-      : 'translate3d(' + x.toFixed(2) + 'vw,' + y.toFixed(2) + 'vh,0) perspective(1400px) rotateY(' + ry.toFixed(2) + 'deg) rotateX(' + rx.toFixed(2) + 'deg) scale(' + s.toFixed(4) + ')';
-    device.style.opacity = (1 - seg(p, .8, .9)).toFixed(3);
+      c.style.opacity = o.toFixed(3);
+      c.style.visibility = o < .01 ? 'hidden' : 'visible';
+    });
 
     // --- giant word behind: drifts, then makes room for the logotype
     var gx = -8 * p + sx * -2;
     giant.style.transform = 'translate3d(' + gx.toFixed(2) + 'vw,' + (sy * -1.5).toFixed(2) + 'vh,0) scale(' + (1 + .06 * seg(p, 0, .5)).toFixed(4) + ')';
-    giant.style.opacity = ((1 - .7 * toLeft) * (1 - seg(p, .7, .8))).toFixed(3);
+    giant.style.opacity = (1 - seg(p, .66, .76)).toFixed(3);
 
     // --- glow colours per scene (violet → blue → pink-violet)
     glowA.style.transform = 'translate3d(' + (x * .8).toFixed(2) + 'vw,0,0) scale(' + (1 + .25 * toLeft).toFixed(3) + ')';
     glowA.style.opacity = (0.85 - .4 * away).toFixed(3);
-    glowB.style.opacity = (seg(p, .22, .32) * (1 - seg(p, .5, .6)) + .5 * seg(p, .55, .7)).toFixed(3);
-
-    // --- handwriting on the page
-    inkLines.forEach(function (el) {
-      var a = +el.dataset.a, b = +el.dataset.b;
-      var r = seg(p, a, b);
-      // Past the end a little when finished, so leaning letters (the "?") aren't cut off.
-      var cp = 'inset(-20% ' + ((1 - r) * 108 - 8).toFixed(2) + '% -20% -2%)';
-      el.style.clipPath = cp; el.style.webkitClipPath = cp;
-    });
-    var live = seg(p, .33, .38);
-    answer.style.opacity = live.toFixed(3);
-    answer.style.transform = 'translateY(' + ((1 - live) * 8).toFixed(2) + 'px) scale(' + (0.8 + .2 * live).toFixed(3) + ')';
-    var t = seg(p, .58, .68);
-    tutor.style.transform = 'translate3d(0,' + ((1 - t) * 110).toFixed(2) + '%,0)';
-    tutor.style.opacity = t.toFixed(3);
+    glowB.style.opacity = (.6 * seg(p, .3, .5)).toFixed(3);
 
     // --- scenes (text)
-    var spans = [[0, .22], [.22, .48], [.48, .74], [.74, 1.01]];
+    var spans = [[0, .3], [.3, .7], [.7, 1.01]];
     scenes.forEach(function (el, i) {
       var v = band(p, spans[i][0], spans[i][1], i === 0 ? .001 : .05);
-      if (i === 0) v = 1 - seg(p, .14, .22);
+      if (i === 0) v = 1 - seg(p, .2, .3);
       el.style.opacity = v.toFixed(3);
       el.style.transform = 'translate3d(0,' + ((1 - v) * (i % 2 ? -24 : 24)).toFixed(1) + 'px,0)';
       el.style.visibility = v < .01 ? 'hidden' : 'visible';
@@ -137,7 +131,7 @@
 
     // --- construction lines (scene 3 and the logotype) and sparkles
     grid.forEach(function (l, i) {
-      var d = seg(p, .5 + i * .012, .66 + i * .012) * (1 - seg(p, .96, 1));
+      var d = seg(p, .34 + i * .012, .52 + i * .012) * (1 - seg(p, .96, 1));
       l.style.strokeDashoffset = (l._len * (1 - d)).toFixed(1);
     });
     logoLines.forEach(function (l, i) {
@@ -150,7 +144,7 @@
     var lc = 'inset(0 ' + ((1 - seg(p, .82, .96)) * 100).toFixed(2) + '% 0 0)';
     logo.style.clipPath = lc; logo.style.webkitClipPath = lc;
     sparks.forEach(function (sp, i) {
-      var on = seg(p, .5 + i * .03, .56 + i * .03);
+      var on = seg(p, .36 + i * .03, .42 + i * .03);
       sp.style.opacity = (on * (.4 + .6 * Math.abs(Math.sin((p * 40) + i)))).toFixed(3);
     });
 

@@ -10,6 +10,7 @@
   if (!film) return;
   var root = document.documentElement;
   var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var coarse = window.matchMedia && window.matchMedia('(pointer: coarse)').matches;
   if (reduce) { root.classList.add('film-still'); return; }
   root.classList.add('film-on');
 
@@ -29,14 +30,24 @@
   }
 
   var target = 0, p = 0, mx = 0, my = 0, sx = 0, sy = 0, running = false;
-  function read() {
+  var top0 = 0, total = 1;
+  function measure() {
     var r = film.getBoundingClientRect();
-    var total = r.height - window.innerHeight;
-    target = total > 0 ? clamp(-r.top / total) : 0;
+    top0 = r.top + window.scrollY;
+    // Use the large viewport height so the address bar sliding away doesn't make it jump.
+    total = Math.max(1, film.offsetHeight - Math.max(window.innerHeight, document.documentElement.clientHeight));
+  }
+  function read() {
+    target = clamp((window.scrollY - top0) / total);
     kick();
   }
+  var lastW = window.innerWidth;
   window.addEventListener('scroll', read, { passive: true });
-  window.addEventListener('resize', read);
+  window.addEventListener('resize', function () {
+    if (window.innerWidth !== lastW) { lastW = window.innerWidth; measure(); }
+    read();
+  });
+  measure();
   window.addEventListener('pointermove', function (e) {
     mx = e.clientX / window.innerWidth - .5; my = e.clientY / window.innerHeight - .5; kick();
   }, { passive: true });
@@ -56,6 +67,7 @@
 
     // --- the iPad: centre → left for "84" → centre for Tutor → away for the logotype
     var wide = window.innerWidth > 760;
+    var flat = !wide || coarse; // phones: move and scale only (Safari mishandles 3D turns here)
     var toLeft = seg(p, .22, .32) * (1 - seg(p, .46, .56));
     var away = seg(p, .76, .9);
     // Scene 1: beside the headline. Scene 2: left of the big 84. Scene 3: centre.
@@ -64,7 +76,9 @@
     var rx = 4 + sy * -8 - 6 * away;
     var s = (0.92 + 0.08 * seg(p, 0, .12)) * (1 - 0.35 * away);
     var y = 4 * (1 - seg(p, 0, .12)) - 10 * away; // vh
-    device.style.transform = 'translate3d(' + x.toFixed(2) + 'vw,' + y.toFixed(2) + 'vh,0) perspective(1400px) rotateY(' + ry.toFixed(2) + 'deg) rotateX(' + rx.toFixed(2) + 'deg) scale(' + s.toFixed(4) + ')';
+    device.style.transform = flat
+      ? 'translate3d(' + x.toFixed(2) + 'vw,' + y.toFixed(2) + 'vh,0) scale(' + s.toFixed(4) + ')'
+      : 'translate3d(' + x.toFixed(2) + 'vw,' + y.toFixed(2) + 'vh,0) perspective(1400px) rotateY(' + ry.toFixed(2) + 'deg) rotateX(' + rx.toFixed(2) + 'deg) scale(' + s.toFixed(4) + ')';
     device.style.opacity = (1 - seg(p, .8, .9)).toFixed(3);
 
     // --- giant word behind: drifts, then makes room for the logotype
@@ -81,7 +95,8 @@
     inkLines.forEach(function (el) {
       var a = +el.dataset.a, b = +el.dataset.b;
       var r = seg(p, a, b);
-      el.style.clipPath = 'inset(-20% ' + ((1 - r) * 100).toFixed(2) + '% -20% -2%)';
+      var cp = 'inset(-20% ' + ((1 - r) * 100).toFixed(2) + '% -20% -2%)';
+      el.style.clipPath = cp; el.style.webkitClipPath = cp;
     });
     var live = seg(p, .33, .38);
     answer.style.opacity = live.toFixed(3);
@@ -116,7 +131,8 @@
     var lg = seg(p, .84, .95);
     logo.style.opacity = lg.toFixed(3);
     logo.style.transform = 'translate3d(0,' + ((1 - lg) * 30).toFixed(1) + 'px,0) scale(' + (0.94 + .06 * lg).toFixed(4) + ')';
-    logo.style.clipPath = 'inset(0 ' + ((1 - seg(p, .82, .96)) * 100).toFixed(2) + '% 0 0)';
+    var lc = 'inset(0 ' + ((1 - seg(p, .82, .96)) * 100).toFixed(2) + '% 0 0)';
+    logo.style.clipPath = lc; logo.style.webkitClipPath = lc;
     sparks.forEach(function (sp, i) {
       var on = seg(p, .5 + i * .03, .56 + i * .03);
       sp.style.opacity = (on * (.4 + .6 * Math.abs(Math.sin((p * 40) + i)))).toFixed(3);

@@ -61,7 +61,7 @@
   function frame() {
     // Scroll speed → a gentle skew on the bands (eases back when you stop).
     velocity = y - lastY; lastY = y;
-    skew += (Math.max(-12, Math.min(12, velocity * 0.25)) - skew) * 0.12;
+    skew += ((fine ? Math.max(-12, Math.min(12, velocity * 0.25)) : 0) - skew) * 0.12;
 
     var vh = window.innerHeight;
     bands.forEach(function (b, i) {

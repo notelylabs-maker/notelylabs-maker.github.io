@@ -522,8 +522,11 @@ html.film-still .device { transform: translateX(16vw) perspective(1400px) rotate
 
 @media (max-width: 760px) {
   .film { height: 520vh; }
-  .device { --dw: min(62vw, 40vh); top: 40%; }
-  .giant { top: 38%; font-size: 34vw; }
+  .device { --dw: min(52vw, 29vh); top: 31%; }
+  .giant { top: 30%; font-size: 34vw; }
+  .scene .lead { font-size: 15px; margin-bottom: 18px; }
+  .scene .actions .cta, .scene .actions .ghost { padding: 12px 18px; font-size: 15px; }
+  .scene .kicker { margin-bottom: 8px; }
   .s1, .s3 { bottom: 5vh; right: var(--gutter); }
   .s2 { top: auto; bottom: 5vh; translate: none; left: var(--gutter); text-align: left; }
   .s2 .lead { margin-left: 0; }

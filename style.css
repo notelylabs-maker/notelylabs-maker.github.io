@@ -449,7 +449,7 @@ footer a:hover { color: var(--text); }
 
 
 /* ---------- the opening film (hero) ---------- */
-.film { position: relative; height: 420vh; z-index: 1; }
+.film { position: relative; height: 580vh; z-index: 1; }
 .film-pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
 .glow-a, .glow-b { position: absolute; left: 50%; top: 58%; width: 70vmax; height: 46vmax; margin: -23vmax 0 0 -35vmax;
   border-radius: 50%; pointer-events: none; will-change: transform, opacity; filter: blur(40px); }
@@ -529,7 +529,7 @@ html.film-still .device { transform: translateX(16vw) perspective(1400px) rotate
   .device { box-shadow: 0 0 0 1px rgba(255, 255, 255, .1) inset, 0 20px 50px rgba(0, 0, 0, .6); }
 }
 @media (max-width: 1000px) {
-  .film { height: 380vh; }
+  .film { height: 520vh; }
   .device { --dw: min(52vw, 29vh); top: 31%; }
   .giant { top: 30%; font-size: 34vw; }
   .scene .lead { font-size: 15px; margin-bottom: 18px; }
@@ -619,7 +619,7 @@ html.own-cursor, html.own-cursor * { cursor: none !important; }
 .secnum + .center .eyebrow { display: none; }
 
 /* Before the film's first frame: only scene 1 shows (no flash of stacked text). */
-html.film-on .scene.s3, html.film-on .scene.s4 { opacity: 0; visibility: hidden; }
+html.film-on .scene.s2, html.film-on .scene.s3, html.film-on .scene.s4 { opacity: 0; visibility: hidden; }
 
 
 /* ---------- privacy: giant numbers ---------- */
@@ -799,3 +799,9 @@ html.film-still .fc-in { animation: none; }
   .fc-graph svg { width: 90px; height: 60px; }
 }
 @media (max-width: 1000px), (pointer: coarse) { .fc-in { -webkit-backdrop-filter: none; backdrop-filter: none; } }
+
+/* Live Math scene: the sum sits small before the big answer. */
+.big-num sup { display: block; font: 600 clamp(22px, 2.4vw, 34px)/1 "Caveat", cursive; letter-spacing: 0; margin-bottom: .1em;
+  color: var(--lavender); -webkit-text-fill-color: var(--lavender); }
+.fc-star { font-size: 40px; padding: 8px 12px; background: transparent; box-shadow: none; -webkit-backdrop-filter: none; backdrop-filter: none;
+  filter: drop-shadow(0 0 18px rgba(255, 210, 90, .6)); }

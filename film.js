@@ -72,8 +72,8 @@
     var toLeft = seg(p, .22, .32) * (1 - seg(p, .46, .56));
     var away = seg(p, .76, .9);
     var x = 0;
-    var travel = 1500 * seg(p, 0, .8);      // how far the camera has flown (px)
-    var dim = 1 - .55 * seg(p, .22, .34);   // quieter behind the Tutor text
+    var travel = 2500 * seg(p, 0, .82);     // how far the camera has flown (px): deep cards keep arriving
+    var dim = 1 - .45 * seg(p, .16, .26);   // quieter behind the scene 2 and 3 text
     // The text block on screen right now (cards must never pass over it).
     var textBoxes = [];
     for (var si = 0; si < scenes.length - 1; si++) {
@@ -108,18 +108,18 @@
     // --- giant word behind: drifts, then makes room for the logotype
     var gx = -8 * p + sx * -2;
     giant.style.transform = 'translate3d(' + gx.toFixed(2) + 'vw,' + (sy * -1.5).toFixed(2) + 'vh,0) scale(' + (1 + .06 * seg(p, 0, .5)).toFixed(4) + ')';
-    giant.style.opacity = (1 - seg(p, .66, .76)).toFixed(3);
+    giant.style.opacity = ((1 - .7 * toLeft) * (1 - seg(p, .7, .8))).toFixed(3);
 
     // --- glow colours per scene (violet → blue → pink-violet)
     glowA.style.transform = 'translate3d(' + (x * .8).toFixed(2) + 'vw,0,0) scale(' + (1 + .25 * toLeft).toFixed(3) + ')';
     glowA.style.opacity = (0.85 - .4 * away).toFixed(3);
-    glowB.style.opacity = (.6 * seg(p, .3, .5)).toFixed(3);
+    glowB.style.opacity = (seg(p, .22, .32) * (1 - seg(p, .5, .6)) + .5 * seg(p, .55, .7)).toFixed(3);
 
     // --- scenes (text)
-    var spans = [[0, .3], [.3, .7], [.7, 1.01]];
+    var spans = [[0, .22], [.22, .48], [.48, .74], [.74, 1.01]];
     scenes.forEach(function (el, i) {
       var v = band(p, spans[i][0], spans[i][1], i === 0 ? .001 : .05);
-      if (i === 0) v = 1 - seg(p, .2, .3);
+      if (i === 0) v = 1 - seg(p, .14, .22);
       el.style.opacity = v.toFixed(3);
       el.style.transform = 'translate3d(0,' + ((1 - v) * (i % 2 ? -24 : 24)).toFixed(1) + 'px,0)';
       el.style.visibility = v < .01 ? 'hidden' : 'visible';
@@ -131,7 +131,7 @@
 
     // --- construction lines (scene 3 and the logotype) and sparkles
     grid.forEach(function (l, i) {
-      var d = seg(p, .34 + i * .012, .52 + i * .012) * (1 - seg(p, .96, 1));
+      var d = seg(p, .5 + i * .012, .66 + i * .012) * (1 - seg(p, .96, 1));
       l.style.strokeDashoffset = (l._len * (1 - d)).toFixed(1);
     });
     logoLines.forEach(function (l, i) {
@@ -144,7 +144,7 @@
     var lc = 'inset(0 ' + ((1 - seg(p, .82, .96)) * 100).toFixed(2) + '% 0 0)';
     logo.style.clipPath = lc; logo.style.webkitClipPath = lc;
     sparks.forEach(function (sp, i) {
-      var on = seg(p, .36 + i * .03, .42 + i * .03);
+      var on = seg(p, .5 + i * .03, .56 + i * .03);
       sp.style.opacity = (on * (.4 + .6 * Math.abs(Math.sin((p * 40) + i)))).toFixed(3);
     });
 

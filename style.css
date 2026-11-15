@@ -517,7 +517,7 @@ footer a:hover { color: var(--text); }
 /* Reduce Motion: the first frame, no long scroll. */
 html.film-still .film { height: auto; }
 html.film-still .film-pin { position: relative; height: 100vh; }
-html.film-still .ink-line { clip-path: none; }
+html.film-still .ink-line { clip-path: none; -webkit-clip-path: none; }
 html.film-still .live-answer { opacity: 1; }
 html.film-still .s2, html.film-still .s3, html.film-still .s4, html.film-still .grid, html.film-still .spark { display: none; }
 html.film-still .device { transform: translateX(16vw) perspective(1400px) rotateY(-12deg); }

@@ -110,7 +110,8 @@
     inkLines.forEach(function (el) {
       var a = +el.dataset.a, b = +el.dataset.b;
       var r = seg(p, a, b);
-      var cp = 'inset(-20% ' + ((1 - r) * 100).toFixed(2) + '% -20% -2%)';
+      // Past the end a little when finished, so leaning letters (the "?") aren't cut off.
+      var cp = 'inset(-20% ' + ((1 - r) * 108 - 8).toFixed(2) + '% -20% -2%)';
       el.style.clipPath = cp; el.style.webkitClipPath = cp;
     });
     var live = seg(p, .33, .38);

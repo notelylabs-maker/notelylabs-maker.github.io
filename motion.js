@@ -75,7 +75,15 @@
       var hot = e.target.closest && e.target.closest('a, button, .cta, .ghost, .tile, .mode, .plan, .fact-row');
       ring.classList.toggle('hot', !!hot);
     });
-    $$('.tile, .mode, .plan, .group').forEach(function (card) {
+    // The Plus card's 3D look on cards across the page: a turning edge and a tilt with depth.
+    $$('.tile, .mode, .group, .plan:not(.pro), .demo .paper, .demo .tutor').forEach(function (card) {
+      var edge = document.createElement('i');
+      edge.className = 'edge';
+      edge.setAttribute('aria-hidden', 'true');
+      card.appendChild(edge);
+      card.classList.add('has-edge');
+    });
+    $$('.tile, .mode, .plan, .group, .demo .paper, .demo .tutor').forEach(function (card) {
       card.addEventListener('pointermove', function (e) {
         var r = card.getBoundingClientRect();
         var px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;

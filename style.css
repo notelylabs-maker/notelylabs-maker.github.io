@@ -528,7 +528,7 @@ html.film-still .device { transform: translateX(16vw) perspective(1400px) rotate
   .device::after { display: none; }
   .device { box-shadow: 0 0 0 1px rgba(255, 255, 255, .1) inset, 0 20px 50px rgba(0, 0, 0, .6); }
 }
-@media (max-width: 760px) {
+@media (max-width: 1000px) {
   .film { height: 520vh; }
   .device { --dw: min(52vw, 29vh); top: 31%; }
   .giant { top: 30%; font-size: 34vw; }
@@ -610,3 +610,6 @@ html.still .band-track { transform: translateX(-10vw); }
   .moving .lift { transform: translateY(36px); }
 }
 .secnum + .center .eyebrow { display: none; }
+
+/* Before the film's first frame: only scene 1 shows (no flash of stacked text). */
+html.film-on .scene.s2, html.film-on .scene.s3, html.film-on .scene.s4 { opacity: 0; visibility: hidden; }

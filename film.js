@@ -66,7 +66,7 @@
     var still = Math.abs(target - p) < 0.0004 && Math.abs(mx - sx) < 0.001 && Math.abs(my - sy) < 0.001;
 
     // --- the iPad: centre → left for "84" → centre for Tutor → away for the logotype
-    var wide = window.innerWidth > 760;
+    var wide = window.innerWidth > 1000; // side-by-side only where there's room
     var flat = !wide || coarse; // phones: move and scale only (Safari mishandles 3D turns here)
     var toLeft = seg(p, .22, .32) * (1 - seg(p, .46, .56));
     var away = seg(p, .76, .9);
@@ -160,4 +160,6 @@
   read();
   p = target;
   kick();
+  // For the site check: draw the current scroll position at once.
+  window.notelyFilmSettle = function () { read(); p = target; sx = mx; sy = my; frame(); };
 })();

@@ -8,11 +8,13 @@
 
   // ---------- smooth scrolling ----------
   var lenis = null;
-  if (!reduce && window.Lenis) {
+  // Mouse and trackpad only: phones already scroll smoothly, and Lenis fights touch scrolling there.
+  if (!reduce && fine && window.Lenis) {
     try {
       lenis = new window.Lenis({ duration: 1.15, easing: function (t) { return Math.min(1, 1.001 - Math.pow(2, -10 * t)); }, smoothWheel: true });
       var raf = function (time) { lenis.raf(time); requestAnimationFrame(raf); };
       requestAnimationFrame(raf);
+      window.notelyLenis = lenis;
     } catch (e) { lenis = null; }
   }
   // In-page links glide to their section (under the sticky bar).

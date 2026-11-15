@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://notelylabs-maker.github.io/sitemap.xml

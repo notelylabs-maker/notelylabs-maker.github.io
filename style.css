@@ -444,3 +444,61 @@ footer a:hover { color: var(--text); }
   #progress, .thinking { display: none; }
   #ambient { display: none; }
 }
+
+
+/* ---------- 3D stage (hero) ---------- */
+.stage { position: relative; height: 420vh; z-index: 1; }
+.stage-pin { position: sticky; top: 0; height: 100vh; height: 100svh; overflow: hidden; }
+.stage::before { content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(60% 50% at 62% 48%, rgba(123, 92, 255, .30), transparent 70%),
+              radial-gradient(40% 40% at 80% 75%, rgba(47, 139, 255, .18), transparent 70%); }
+#ipad3d { position: absolute; inset: 0; width: 100%; height: 100%; z-index: 2; }
+html:not(.has3d) #ipad3d { display: none; }
+.kinetic { position: absolute; inset: 0; z-index: 1; display: grid; place-items: center; pointer-events: none; }
+.k { grid-area: 1 / 1; font: 800 clamp(84px, 19vw, 340px)/.9 "Inter", sans-serif; letter-spacing: -.055em;
+  color: transparent; -webkit-text-stroke: 1.5px rgba(201, 196, 255, .28); opacity: 0; will-change: transform, opacity; white-space: nowrap; }
+.k.fill { -webkit-text-stroke: 0; background: var(--grad-text); -webkit-background-clip: text; background-clip: text; opacity: 0; }
+.stage-copy { position: absolute; left: max(var(--gutter), 6vw); bottom: 14vh; z-index: 3; max-width: 560px; will-change: transform, opacity; }
+.stage-copy .mark { display: none; }
+.stage-copy h1 { font: 800 clamp(56px, 9vw, 124px)/.95 "Inter", sans-serif; letter-spacing: -.045em; margin: 0 0 18px; }
+.stage-copy .lead { font-size: clamp(18px, 2vw, 22px); color: var(--soft); margin: 0 0 26px; max-width: 30ch; }
+.stage-copy .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+.steps { position: absolute; left: max(var(--gutter), 6vw); bottom: 12vh; z-index: 3; width: min(420px, 86vw); height: 170px; pointer-events: none; }
+.step-card { position: absolute; inset: auto 0 0 0; opacity: 0; transform: translateY(24px); filter: blur(6px);
+  transition: opacity .6s var(--ease), transform .7s var(--ease), filter .6s var(--ease); }
+.step-card.on { opacity: 1; transform: none; filter: none; }
+.step-card b { display: block; font: 800 clamp(64px, 8vw, 104px)/1 "Inter", sans-serif; letter-spacing: -.05em;
+  background: var(--grad-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.step-card span { display: block; font: 700 clamp(26px, 3vw, 36px)/1.1 "Inter", sans-serif; letter-spacing: -.02em; margin-top: 6px; }
+.step-card small { display: block; font-size: 16px; color: var(--muted); margin-top: 8px; }
+.stage .scroll-hint { position: absolute; left: 50%; bottom: 26px; z-index: 3; }
+/* No WebGL / Reduce Motion: the calm logo hero, no long scroll. */
+html.no3d .stage { height: auto; }
+html.no3d .stage-pin { position: relative; height: auto; min-height: 92vh; display: grid; place-items: center; }
+html.no3d .stage-copy { position: relative; left: auto; bottom: auto; text-align: center; margin: 0 auto; padding: 120px var(--gutter) 60px; }
+html.no3d .stage-copy .mark { display: block; margin: 0 auto 26px; }
+html.no3d .stage-copy .actions { justify-content: center; }
+html.no3d .stage-copy .lead { margin-left: auto; margin-right: auto; }
+html.no3d .steps, html.no3d .kinetic { display: none; }
+@media (max-width: 760px) {
+  .stage { height: 380vh; }
+  .stage-copy { bottom: 8vh; right: var(--gutter); }
+  .steps { bottom: 6vh; height: 150px; }
+  .stage::before { background: radial-gradient(80% 45% at 50% 40%, rgba(123, 92, 255, .32), transparent 70%); }
+}
+
+/* ---------- New in 1.1: bento grid ---------- */
+.bento { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 44px; }
+.tile { position: relative; overflow: hidden; border-radius: var(--radius); padding: 28px; min-height: 210px;
+  background: linear-gradient(160deg, rgba(23, 19, 58, .9), rgba(7, 7, 13, .9)); border: 1px solid var(--line);
+  display: flex; flex-direction: column; justify-content: flex-end; gap: 6px; }
+.tile.big { grid-row: span 2; }
+.tile .num { position: absolute; top: 18px; right: 22px; font: 800 clamp(40px, 5vw, 76px)/1 "Inter", sans-serif; letter-spacing: -.05em;
+  background: var(--grad-text); -webkit-background-clip: text; background-clip: text; color: transparent; opacity: .9; }
+.tile.big .num { font-size: clamp(72px, 10vw, 150px); }
+.tile b { font-size: 21px; letter-spacing: -.01em; }
+.tile span:not(.num) { color: var(--muted); font-size: 15.5px; }
+.tile::after { content: ""; position: absolute; inset: auto -30% -60% -30%; height: 70%; pointer-events: none;
+  background: radial-gradient(closest-side, rgba(123, 92, 255, .22), transparent); }
+@media (max-width: 900px) { .bento { grid-template-columns: 1fr 1fr; } .tile.big { grid-column: span 2; grid-row: auto; } }
+@media (max-width: 560px) { .bento { grid-template-columns: 1fr; } .tile.big { grid-column: auto; } }

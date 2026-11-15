@@ -14,7 +14,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=EB+Garamond:ital@0;1&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="style.css?v=20261115c">
+<link rel="stylesheet" href="style.css?v=20261115d">
 <script>document.documentElement.classList.add('js')</script>
 </head>
 <body>
@@ -261,11 +261,14 @@
       <p class="eyebrow rv">Private by design</p>
       <h2 class="big rv" style="--d:.1">Your notes stay <em>on your iPad.</em></h2>
       <p class="sub rv" style="--d:.2;margin:0 auto">Your notebooks are never uploaded. When you ask Smart Tutor something, your question and the page it's about go to Claude by Anthropic for a sharper answer, never stored or used for training. Leave Smart Tutor off and Tutor runs on the iPad itself, even offline.</p>
-      <div class="stats">
-        <div class="stat spot rv" style="--d:.1"><b>0</b><span>accounts to make</span></div>
-        <div class="stat spot rv" style="--d:.2"><b>0</b><span>ads</span></div>
-        <div class="stat spot rv" style="--d:.3"><b>0</b><span>trackers</span></div>
-        <div class="stat spot rv" style="--d:.4"><b data-count="100" data-suffix="%">100%</b><span>of your notes on your iPad</span></div>
+      <div class="bignums">
+        <div class="bignum"><b data-to="0">0</b><span>accounts<br>to make</span></div>
+        <div class="bignum"><b data-to="0">0</b><span>ads,<br>ever</span></div>
+        <div class="bignum"><b data-to="0">0</b><span>trackers<br>watching</span></div>
+        <div class="bignum ring-num">
+          <svg viewBox="0 0 120 120" aria-hidden="true"><circle class="track" cx="60" cy="60" r="52"/><circle class="fill" cx="60" cy="60" r="52"/></svg>
+          <b data-to="100" data-suffix="%">100%</b><span>of your notes<br>on your iPad</span>
+        </div>
       </div>
     </div>
   </section>
@@ -279,23 +282,26 @@
         <p class="eyebrow rv">Notely Plus</p>
         <h2 class="rv" style="--d:.1">Everything you need. <em>More if you want it.</em></h2>
       </div>
-      <div class="plus">
-        <div class="tier spot rv">
-          <h3>Notely AI</h3>
-          <p class="price">Everything in the notebook</p>
+      <div class="plans">
+        <div class="plan">
+          <p class="plan-name">Notely AI</p>
+          <div class="plan-price"><b>$0</b><span>free, forever</span></div>
+          <div class="plan-stat"><b>5</b><span>Smart Tutor<br>messages a day</span></div>
           <ul>
-            <li>All writing, paper and study tools</li>
-            <li>Notely Tutor: 5 Smart Tutor messages a day</li>
+            <li>Every writing, paper and study tool</li>
+            <li>Live Math, recording, pages, Zoom Box</li>
             <li>Backups, Version History and Trash</li>
           </ul>
         </div>
-        <div class="tier hi spot rv" style="--d:.1">
-          <h3>Notely <span class="ai">Plus</span></h3>
-          <p class="price">$3.99 a month or $29.99 a year</p>
+        <div class="plan pro">
+          <div class="plan-glow" aria-hidden="true"></div>
+          <p class="plan-name">Notely <span class="ai">Plus</span> <em>Save 37% yearly</em></p>
+          <div class="plan-price"><b>$3.99</b><span>a month · or $29.99 a year</span></div>
+          <div class="plan-stat"><b>100</b><span>Smart Tutor<br>messages a day</span></div>
           <ul>
-            <li>100 Smart Tutor messages a day, and Coach checks your writing with it</li>
-            <li>Solve Math: the answer to the problem you wrote, when you ask</li>
-            <li>Turn handwriting into text, in the same place and colour</li>
+            <li>Coach checks your writing as you go</li>
+            <li>Solve Math: answers and steps for what you wrote</li>
+            <li>Turn handwriting into text, in place</li>
             <li>Copy as Text and Text from Photos</li>
           </ul>
         </div>
@@ -312,12 +318,12 @@
         <p class="eyebrow rv">Good to know</p>
         <h2 class="rv" style="--d:.1">No account. <em>No surprises.</em></h2>
       </div>
-      <div class="know">
-        <div class="fact spot rv" style="--d:0.0"><div class="ic">◎</div><b>No account needed</b><span>There’s no sign-up or login. Your Apple ID is all Notely uses.</span></div>
-        <div class="fact spot rv" style="--d:0.1"><div class="ic">↻</div><b>Plus follows your Apple ID</b><span>Same Apple ID on a new iPad or iPhone? Plus turns on by itself. Never pay twice.</span></div>
-        <div class="fact spot rv" style="--d:0.2"><div class="ic">☁</div><b>Notes live on your iPad</b><span>Turn on iCloud Backup to keep copies in your iCloud Drive and move to a new iPad.</span></div>
-        <div class="fact spot rv" style="--d:0.3"><div class="ic">✕</div><b>Deleting ≠ cancelling</b><span>Deleting the app doesn’t cancel Plus, and it deletes the notes on that iPad. Back up first.</span></div>
-      </div>
+      <ol class="facts">
+        <li class="fact-row"><span class="fx">01</span><b>No account needed</b><p>There’s no sign-up or login. Your Apple ID is all Notely uses.</p><i aria-hidden="true">→</i></li>
+        <li class="fact-row"><span class="fx">02</span><b>Plus follows your Apple ID</b><p>Same Apple ID on a new iPad or iPhone? Plus turns on by itself. Never pay twice.</p><i aria-hidden="true">→</i></li>
+        <li class="fact-row"><span class="fx">03</span><b>Notes live on your iPad</b><p>Turn on iCloud Backup to keep copies in your iCloud Drive and move to a new iPad.</p><i aria-hidden="true">→</i></li>
+        <li class="fact-row"><span class="fx">04</span><b>Deleting ≠ cancelling</b><p>Deleting the app doesn’t cancel Plus, and it deletes the notes on that iPad. Back up first.</p><i aria-hidden="true">→</i></li>
+      </ol>
       <p class="more rv"><a class="ghost" href="support.html#mix-ups">Common questions →</a></p>
     </div>
   </section>
@@ -349,8 +355,8 @@
   </div>
 </footer>
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.20/dist/lenis.min.js"></script>
-<script src="site.js?v=20261115c"></script>
-<script src="film.js?v=20261115c"></script>
-<script src="motion.js?v=20261115c"></script>
+<script src="site.js?v=20261115d"></script>
+<script src="film.js?v=20261115d"></script>
+<script src="motion.js?v=20261115d"></script>
 </body>
 </html>

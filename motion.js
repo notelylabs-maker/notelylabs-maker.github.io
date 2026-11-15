@@ -16,16 +16,32 @@
   var bands = $$('.band'), mirrors = $$('.mirror'), numbers = $$('.secnum');
   var glowSections = $$('[data-glow]');
   var glow = document.getElementById('glow');
-  var stagger = $$('.modes, .bento, .groups, .stats, .plus, .know');
+  var stagger = $$('.modes, .bento, .groups, .bignums, .plans, .facts');
 
   // Cards inside a stagger group get an index for their delay.
   stagger.forEach(function (g) {
     Array.prototype.slice.call(g.children).forEach(function (c, i) { c.style.setProperty('--k', i); c.classList.add('lift'); });
   });
   var io = new IntersectionObserver(function (es) {
-    es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.add('lifted'); io.unobserve(e.target); } });
+    es.forEach(function (e) {
+      if (!e.isIntersecting) return;
+      e.target.classList.add('lifted'); io.unobserve(e.target);
+      $$('[data-to]', e.target).forEach(countUp);
+    });
   }, { rootMargin: '0px 0px -12% 0px' });
   stagger.concat(numbers).forEach(function (g) { io.observe(g); });
+
+  // Big numbers count up from zero (0 stays 0, with a little flicker of digits first).
+  function countUp(el) {
+    var to = +el.getAttribute('data-to'), suffix = el.getAttribute('data-suffix') || '';
+    var start = performance.now(), dur = to ? 1600 : 700;
+    (function step(now) {
+      var t = Math.min(1, (now - start) / dur), e = 1 - Math.pow(1 - t, 3);
+      var v = to ? Math.round(to * e) : (t < 1 ? Math.floor(Math.random() * 10) : 0);
+      el.textContent = v + suffix;
+      if (t < 1) requestAnimationFrame(step);
+    })(start);
+  }
 
   var y = window.scrollY, lastY = y, velocity = 0, skew = 0;
   window.addEventListener('scroll', function () { y = window.scrollY; }, { passive: true });
@@ -56,10 +72,10 @@
     window.addEventListener('pointerdown', function () { ring.classList.add('press'); });
     window.addEventListener('pointerup', function () { ring.classList.remove('press'); });
     document.addEventListener('pointerover', function (e) {
-      var hot = e.target.closest && e.target.closest('a, button, .cta, .ghost, .tile, .mode, .tier, .fact');
+      var hot = e.target.closest && e.target.closest('a, button, .cta, .ghost, .tile, .mode, .plan, .fact-row');
       ring.classList.toggle('hot', !!hot);
     });
-    $$('.tile, .mode, .tier, .fact, .group, .stat').forEach(function (card) {
+    $$('.tile, .mode, .plan, .group').forEach(function (card) {
       card.addEventListener('pointermove', function (e) {
         var r = card.getBoundingClientRect();
         var px = (e.clientX - r.left) / r.width - .5, py = (e.clientY - r.top) / r.height - .5;

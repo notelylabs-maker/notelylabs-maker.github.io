@@ -859,3 +859,6 @@ html.film-still .mathsheet { display: none; }
   .ms-row { height: 34px; line-height: 34px; font-size: 22px; }
   .big-num { font-size: 92px; }
 }
+
+.grid-circle { position: absolute; left: 50%; top: 50%; width: min(68vmin, 620px); height: min(68vmin, 620px); translate: -50% -50%; pointer-events: none; overflow: visible; }
+html.film-still .grid-circle { display: none; }
